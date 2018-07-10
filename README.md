@@ -52,5 +52,5 @@ I use this, and see a system-wide performance increase!
 <a href="http://tbswitcher.rugarciap.com/"> If you need a little more CPU power, Install this</a>
 
 # Additional Great Tweaks
-Disable unused global symbols: https://twitter.com/theKashey/status/1016824878706524160
-Turn off error reporting: Preferences | Appearance & Behaviour | System Settings | Data Sharing | Send usage statistics
+* Disable unused global symbols: https://twitter.com/theKashey/status/1016824878706524160
+* Turn off error reporting: Preferences | Appearance & Behaviour | System Settings | Data Sharing | Send usage statistics
