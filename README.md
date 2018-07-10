@@ -19,6 +19,8 @@ This configuration aims to give at least 10x performance increases across the bo
 
 The recommended way of changing the JVM options in the recent product versions is from the **Help | Edit Custom VM Options menu**. To change the IDE options go to **Help | Edit Custom Properties*
 
+For Older IDEs, something like this: `vim /Applications/IntelliJ\ IDEA\ 15.app/Contents/bin/idea.vmoptions`
+
 # Minimum Expected Results & Benchmarks
 **Note that this example is the orange one (sophisticated)**
 
