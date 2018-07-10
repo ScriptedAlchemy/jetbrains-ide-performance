@@ -37,6 +37,8 @@ For Older IDEs, something like this: `vim /Applications/IntelliJ\ IDEA\ 15.app/C
 ## RAMDISK OSX
 If you still want even more indexing and startup performance. Then mounting a RAM Disk and symlinking all caching data is the ultimate powerhouse.
 
+<a href=https://github.com/ScriptedAlchemy/jetbrains-ide-performance/tree/master/OSX-RAMDisk">Follow The ReadMe Here</a>
+
 ## Trim Enabler (OSX)
 * Access advanced macOS tweaks to improve your performance or free up several gigabytes of disk space.
 * The advanced Health feature uses S.M.A.R.T technology to report drive status and remaining health.
