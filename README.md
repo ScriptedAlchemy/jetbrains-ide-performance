@@ -33,7 +33,7 @@ For Older IDEs, something like this: `vim /Applications/IntelliJ\ IDEA\ 15.app/C
 
 <img src="https://docs.google.com/spreadsheets/d/1iN6_z2HfJPsGPKlNzwgnUxps4MT5BxhUbOuhwXdnIgI/pubchart?oid=2053860050&format=image"/>
 
-# Even More Performance
+# Even More IO Performance
 ## RAMDISK OSX
 If you still want even more indexing and startup performance. Then mounting a RAM Disk and symlinking all caching data is the ultimate powerhouse.
 
@@ -48,3 +48,5 @@ I use this, and see a system-wide performance increase!
 
 <a href="https://cindori.org/trimenabler/" target="_blank"/>Download Trim Enabler</a>
 
+# Even More Processing Power (Force Enable Intel Turbo Boost)
+<a href="http://tbswitcher.rugarciap.com/"> If you need a little more CPU power, Install this</a>
