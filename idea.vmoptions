@@ -27,10 +27,26 @@
 -XX:-TraceClassUnloading
 -XX:+AlwaysPreTouch
 -XX:+TieredCompilation
+-XX:+DoEscapeAnalysis
+-XX:+UnlockExperimentalVMOptions
+-XX:LargePageSizeInBytes=256m
+-XX:+DisableExplicitGC
+-XX:+ExplicitGCInvokesConcurrent
+-XX:+PrintGCDetails
+-XX:+PrintFlagsFinal
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:+CMSPermGenSweepingEnabled
+-XX:+UseAdaptiveGCBoundary
+-XX:+UseSplitVerifier
+-XX:CompileThreshold=10000
+-XX:+UseCompressedStrings
+-XX:+OptimizeStringConcat
+-XX:+UseStringCache
+-XX:+UseFastAccessorMethods
+-XX:+UnlockDiagnosticVMOptions
 -ea
 -Dsun.io.useCanonCaches=false
 -Djava.net.preferIPv4Stack=true
--XX:+HeapDumpOnOutOfMemoryError
 -XX:-OmitStackTraceInFastThrow
 -Xverify:none
 
