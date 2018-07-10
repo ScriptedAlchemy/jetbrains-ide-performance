@@ -21,6 +21,9 @@ The recommended way of changing the JVM options in the recent product versions i
 
 For Older IDEs, something like this: `vim /Applications/IntelliJ\ IDEA\ 15.app/Contents/bin/idea.vmoptions`
 
+> * idea.vmoptions --> Help | Edit Custom VM Options menu
+> * idea.properties --> Help | Edit Custom Properties
+
 # Minimum Expected Results & Benchmarks
 **Note that this example is the orange one (sophisticated)**
 
