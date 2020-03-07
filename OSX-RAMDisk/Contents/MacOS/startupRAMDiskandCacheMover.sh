@@ -36,20 +36,20 @@ MSG_PROMPT_FOUND="I found "
 #
 user_response()
 {
-    echo -ne "$@" "[Y/n]  "
-    read -r response
+   echo -ne "$@" "[Y/n]  "
+   read -r response
 
-    case ${response} in
-        [yY][eE][sS]|[yY]|"")
-            true
-            ;;
-        [nN][oO]|[nN])
-            false
-            ;;
-        *)
-            user_response "$@"
-            ;;
-    esac
+   case ${response} in
+      [yY][eE][sS]|[yY]|"")
+         true
+         ;;
+      [nN][oO]|[nN])
+         false
+         ;;
+      *)
+         user_response "$@"
+         ;;
+   esac
 }
 
 #
@@ -57,7 +57,7 @@ user_response()
 #
 close_app()
 {
-    osascript -e "quit app \"${1}\""
+   osascript -e "quit app \"${1}\""
 }
 
 #
@@ -65,44 +65,44 @@ close_app()
 #
 mk_ram_disk()
 {
-    # unmount if exists and mounts if doesn't
-    umount -f "${mount_point}"
-    newfs_hfs -v 'ramdisk' "${ramdisk_device}"
-    mkdir -p "${mount_point}"
-    mount -o noatime -t hfs "${ramdisk_device}" "${mount_point}"
+   # unmount if exists and mounts if doesn't
+   umount -f "${mount_point}"
+   newfs_hfs -v 'ramdisk' "${ramdisk_device}"
+   mkdir -p "${mount_point}"
+   mount -o noatime -t hfs "${ramdisk_device}" "${mount_point}"
 
-    echo "created RAM disk."
-    # Hide RAM disk - we don't really need it to be annoiyng in finder.
-    # comment out should you need it.
-    hide_ramdisk
-    echo "RAM disk hidden"
+   echo "created RAM disk."
+   # Hide RAM disk - we don't really need it to be annoiyng in finder.
+   # comment out should you need it.
+   # hide_ramdisk
+   # echo "RAM disk hidden"
 }
 
 # adds rsync to be executed each 5 min for current user
 add_rsync_to_cron()
 {
-    #todo fixme
-    crontab -l | { cat; echo "5 * * * * rsync"; } | crontab -
+   #todo fixme
+   crontab -l | { cat; echo "30 * * * * rsync"; } | crontab -
 }
 
 # Open an application
 open_app()
 {
-    osascript -e "tell app \"${1}\" to activate"
+   osascript -e "tell app \"${1}\" to activate"
 }
 
 # Hide RamDisk directory
 hide_ramdisk()
 {
-    /usr/bin/chflags hidden "${mount_point}"
+   /usr/bin/chflags hidden "${mount_point}"
 }
 
 # Checks that we have
 # all required utils before proceeding
 check_requirements()
 {
-    hash rsync 2>/dev/null || { echo >&2 "No rsync has been found.  Aborting. If you use brew install using: 'brew install rsync'"; exit 1; }
-    hash newfs_hfs 2>/dev/null || { echo >&2 "No newfs_hfs has been found.  Aborting."; exit 1; }
+   hash rsync 2>/dev/null || { echo >&2 "No rsync has been found.  Aborting. If you use brew install using: 'brew install rsync'"; exit 1; }
+   hash newfs_hfs 2>/dev/null || { echo >&2 "No newfs_hfs has been found.  Aborting."; exit 1; }
 }
 
 #
@@ -110,11 +110,11 @@ check_requirements()
 #
 check_string_in_file()
 {
-    if  grep "${1}" "${2}" == 0; then
-        return 0;
-    else
-        return 1;
-    fi
+   if  grep "${1}" "${2}" == 0; then
+      return 0;
+   else
+      return 1;
+   fi
 }
 
 #
@@ -122,11 +122,11 @@ check_string_in_file()
 #
 check_for_flag()
 {
-    if [ -e "${1}" ] ; then
-        return 0;
-    else
-        return 1;
-    fi
+   if [ -e "${1}" ] ; then
+      return 0;
+   else
+      return 1;
+   fi
 }
 
 #
@@ -134,7 +134,7 @@ check_for_flag()
 #
 make_flag()
 {
-    echo "" > /Applications/OSX-RAMDisk.app/"${1}"
+   echo "" > /Applications/OSX-RAMDisk.app/"${1}"
 }
 
 # ------------------------------------------------------
@@ -145,23 +145,49 @@ make_flag()
 #
 # Google Chrome Cache
 #
+
+
+/bin/mkdir -pv $CACHEDIR/Google/Chrome/Default
+/bin/ln -v -s $CACHEDIR/Google/Chrome/Default ~/Library/Caches/Google/Chrome/Default
 move_chrome_cache()
 {
-    if [ -d "/Users/${USER}/Library/Caches/Google/Chrome" ]; then
-        if user_response "${MSG_PROMPT_FOUND}" 'Chrome'"${MSG_MOVE_CACHE}" ; then
-            close_app "Google Chrome"
-            /bin/mkdir -p /tmp/Google
-            /bin/mv ~/Library/Caches/Google/* /tmp/Google
-            /bin/mkdir -pv "${USERRAMDISK}"/Google
-            /bin/mv /tmp/Google/* "${USERRAMDISK}"/Google
-            /bin/ln -v -s -f "${USERRAMDISK}"/Google ~/Library/Caches/Google/
-            /bin/rm -rf /tmp/Google
-            # and let's create a flag for next run that we moved the cache.
-            echo "";
-        fi
-    else
-        echo "No Google Chrome folder has been found. Skipping."
-    fi
+   if [ -d "/Users/${USER}/Library/Caches/Google/Chrome" ]; then
+      if user_response "${MSG_PROMPT_FOUND}" 'Chrome'"${MSG_MOVE_CACHE}" ; then
+         close_app "Google Chrome"
+         /bin/mkdir -p /tmp/Google
+         /bin/mv ~/Library/Caches/Google/Chrome/* /tmp/Google
+         /bin/mkdir -pv "${USERRAMDISK}"/Google
+         /bin/mv /tmp/Google/* "${USERRAMDISK}"/Google
+         /bin/ln -v -s -f "${USERRAMDISK}"/Google ~/Library/Caches/Google/
+         /bin/rm -rf /tmp/Google
+         # and let's create a flag for next run that we moved the cache.
+         echo "";
+      fi
+   else
+      echo "No Google Chrome folder has been found. Skipping."
+   fi
+}
+
+#
+# Chromium Cache
+#
+move_chromium_cache()
+{
+   if [ -d "/Users/${USER}/Library/Caches/Chromium" ]; then
+      if user_response "${MSG_PROMPT_FOUND}" 'Chromium/Iron'"${MSG_MOVE_CACHE}" ; then
+         close_app "SRWare Iron"
+         /bin/mkdir -p /tmp/Chromium
+         /bin/mv ~/Library/Caches/Chromium/* /tmp/Chromium
+         /bin/mkdir -pv "${USERRAMDISK}"/Chromium
+         /bin/mv /tmp/Chromium/* "${USERRAMDISK}"/Chromium
+         /bin/ln -v -s -f "${USERRAMDISK}"/Chromium ~/Library/Caches/Chromium/
+         /bin/rm -rf /tmp/Chromium
+         # and let's create a flag for next run that we moved the cache.
+         echo "";
+      fi
+   else
+      echo "No Chromium folder has been found. Skipping."
+   fi
 }
 
 #
@@ -169,14 +195,14 @@ move_chrome_cache()
 #
 move_chrome_chanary_cache()
 {
-    if [ -d "/Users/${USER}/Library/Caches/Google/Chrome Canary" ]; then
-        if user_response "${MSG_PROMPT_FOUND}" 'Chrome Canary'"${MSG_MOVE_CACHE}" ; then
-            close_app "Chrome Canary"
-            /bin/rm -rf ~/Library/Caches/Google/Chrome\ Canary/*
-            /bin/mkdir -p "${USERRAMDISK}"/Google/Chrome\ Canary/Default
-            /bin/ln -s "${USERRAMDISK}"/Google/Chrome\ Canary/Default ~/Library/Caches/Google/Chrome\ Canary/Default
-        fi
-    fi
+   if [ -d "/Users/${USER}/Library/Caches/Google/Chrome Canary" ]; then
+      if user_response "${MSG_PROMPT_FOUND}" 'Chrome Canary'"${MSG_MOVE_CACHE}" ; then
+         close_app "Chrome Canary"
+         /bin/rm -rf ~/Library/Caches/Google/Chrome\ Canary/*
+         /bin/mkdir -p "${USERRAMDISK}"/Google/Chrome\ Canary/Default
+         /bin/ln -s "${USERRAMDISK}"/Google/Chrome\ Canary/Default ~/Library/Caches/Google/Chrome\ Canary/Default
+      fi
+   fi
 }
 
 #
@@ -184,15 +210,15 @@ move_chrome_chanary_cache()
 #
 move_safari_cache()
 {
-    if [ -d "/Users/${USER}/Library/Caches/com.apple.Safari" ]; then
-        if user_response "${MSG_PROMPT_FOUND}" 'Safari'"${MSG_MOVE_CACHE}"; then
-            close_app "Safari"
-            /bin/rm -rf ~/Library/Caches/com.apple.Safari
-            /bin/mkdir -p "${USERRAMDISK}"/Apple/Safari
-            /bin/ln -s "${USERRAMDISK}"/Apple/Safari ~/Library/Caches/com.apple.Safari
-            echo "Moved Safari cache."
-        fi
-    fi
+   if [ -d "~/Library/Caches/com.apple.Safari" ]; then
+      if user_response "${MSG_PROMPT_FOUND}" 'Safari'"${MSG_MOVE_CACHE}"; then
+         close_app "Safari"
+         /bin/rm -rf ~/Library/Caches/com.apple.Safari
+         /bin/mkdir -p "${USERRAMDISK}"/Apple/Safari
+         /bin/ln -s "${USERRAMDISK}"/Apple/Safari ~/Library/Caches/com.apple.Safari
+         echo "Moved Safari cache."
+      fi
+   fi
 }
 
 #
@@ -200,118 +226,33 @@ move_safari_cache()
 #
 move_itunes_cache()
 {
-    if [ -d "/Users/${USER}/Library/Caches/com.apple.iTunes" ]; then
-        if user_response "${MSG_PROMPT_FOUND}" 'iTunes'"${MSG_MOVE_CACHE}" ; then
-            close_app "iTunes"
-            /bin/rm -rf /Users/"${USER}"/Library/Caches/com.apple.iTunes
-            /bin/mkdir -pv "${USERRAMDISK}"/Apple/iTunes
-            /bin/ln -v -s "${USERRAMDISK}"/Apple/iTunes ~/Library/Caches/com.apple.iTunes
-            echo "Moved iTunes cache."
-        fi
-    fi
+   if [ -d "~/Library/Caches/com.apple.iTunes" ]; then
+      if user_response "${MSG_PROMPT_FOUND}" 'iTunes'"${MSG_MOVE_CACHE}" ; then
+         close_app "iTunes"
+         /bin/rm -rf ~/Library/Caches/com.apple.iTunes
+         /bin/mkdir -pv "${USERRAMDISK}"/Apple/iTunes
+         /bin/ln -v -s "${USERRAMDISK}"/Apple/iTunes ~/Library/Caches/com.apple.iTunes
+         echo "Moved iTunes cache."
+      fi
+   fi
 }
 
 #
-# Intellij Idea
+# Webstorm
 #
-move_idea_cache()
+move_webstorm_cache()
 {
-    if [ -d "/Applications/IntelliJ IDEA.app" ]; then
-        if user_response "${MSG_PROMPT_FOUND}" 'IntelliJ IDEA'"${MSG_MOVE_CACHE}" ; then
-            close_app "IntelliJ Idea"
-            # make a backup of config - will need it when uninstalling
-            cp -f /Applications/IntelliJ\ IDEA.app/Contents/bin/idea.properties /Applications/IntelliJ\ IDEA.app/Contents/bin/idea.properties.back
-            # Idea will create those dirs
-            echo "idea.system.path=${USERRAMDISK}/Idea" >> /Applications/IntelliJ\ IDEA.app/Contents/bin/idea.properties
-            echo "idea.log.path=${USERRAMDISK}/Idea/logs" >> /Applications/IntelliJ\ IDEA.app/Contents/bin/idea.properties
-            echo "Moved IntelliJ cache."
-        fi
-    fi
-}
-
-#
-# Intellij Idea Community Edition
-#
-move_ideace_cache()
-{
-    if [ -d "/Applications/IntelliJ IDEA CE.app" ]; then
-        if user_response "${MSG_PROMPT_FOUND}" 'IntelliJ IDEA CE'"${MSG_MOVE_CACHE}" ; then
-            close_app "IntelliJ Idea CE"
-            # make a backup of config - will need it when uninstalling
-            cp -f /Applications/IntelliJ\ IDEA\ CE.app/Contents/bin/idea.properties /Applications/IntelliJ\ IDEA\ CE.app/Contents/bin/idea.properties.back
-            # Idea will create those dirs
-            echo "idea.system.path=${USERRAMDISK}/Idea" >> /Applications/IntelliJ\ IDEA\ CE.app/Contents/bin/idea.properties
-            echo "idea.log.path=${USERRAMDISK}/Idea/logs" >> /Applications/IntelliJ\ IDEA\ CE.app/Contents/bin/idea.properties
-            echo "Moved IntelliJ cache."
-        fi
-    fi
-}
-
-#
-# Creates intelliJ intermediate output folder
-# to be used by java/scala projects.
-#
-create_intermediate_folder_for_intellij_projects()
-{
-    [ -d /Volumes/ramdisk/"${USER}"/compileroutput ] || mkdir -p /Volumes/ramdisk/"${USER}"/compileroutput
-}
-
-#
-# Android Studio
-#
-move_android_studio_cache()
-{
-    if [ -d "/Applications/Android Studio.app" ]; then
-        if user_response "${MSG_PROMPT_FOUND}" 'Android Studio'"${MSG_MOVE_CACHE}" ; then
-            echo "moving Android Studio cache";
-            close_app "Android Studio"
-            # make a backup of config - will need it when uninstalling
-            cp -f /Applications/Android\ Studio.app/Contents/bin/idea.properties /Applications/Android\ Studio.app/Contents/bin/idea.properties.back
-            # Idea will create those dirs
-            echo "idea.system.path=${USERRAMDISK}/AndroidStudio" >> /Applications/Android\ Studio.app/Contents/bin/idea.properties
-            echo "idea.log.path=${USERRAMDISK}/AndroidStudio/logs" >> /Applications/Android\ Studio.app/Contents/bin/idea.properties
-            echo "Moved Android cache."
-        fi
-    fi
-}
-
-#
-# Clion
-#
-move_clion_cache()
-{
-    if [ -d "/Applications/Clion.app" ]; then
-        if user_response "${MSG_PROMPT_FOUND}" 'Clion'"${MSG_MOVE_CACHE}" ; then
-            echo "moving Clion cache";
-            close_app "Clion"
-            # make a backup of config - will need it when uninstalling
-            cp -f /Applications/Clion.app/Contents/bin/idea.properties /Applications/Clion.app/Contents/bin/idea.properties.back
-            # Idea will create those dirs
-            echo "idea.system.path=${USERRAMDISK}/Clion" >> /Applications/Clion.app/Contents/bin/idea.properties
-            echo "idea.log.path=${USERRAMDISK}/Clion/logs" >> /Applications/Clion.app/Contents/bin/idea.properties
-            echo "Moved Clion cache."
-        fi
-    fi
-}
-
-#
-# AppCode - ios
-#
-move_appcode_cache()
-{
-    if [ -d "/Applications/AppCode.app" ]; then
-        if user_response "${MSG_PROMPT_FOUND}" 'AppCode'"${MSG_MOVE_CACHE}" ; then
-            echo "moving AppCode cache";
-            close_app "AppCode"
-            # make a backup of config - will need it when uninstalling
-            cp -f /Applications/AppCode.app/Contents/bin/idea.properties /Applications/AppCode.app/Contents/bin/idea.properties.back
-            # Need to create those dirs
-            echo "idea.system.path=${USERRAMDISK}/AppCode" >> /Applications/AppCode.app/Contents/bin/idea.properties
-            echo "idea.log.path=${USERRAMDISK}/AppCode/logs" >> /Applications/AppCode.app/Contents/bin/idea.properties
-            mkdir -p "${USERRAMDISK}"/AppCode/logs
-            echo "Moved AppCode cache."
-        fi
-    fi
+   if [ -d "/Users/${USER}/Library/Application\ Support/JetBrains/Toolbox/apps/WebStorm/ch-0/193.6494.34" ]; then
+      if user_response "${MSG_PROMPT_FOUND}" 'WebStorm'"${MSG_MOVE_CACHE}" ; then
+         close_app "Webstorm Idea"
+         # make a backup of config - will need it when uninstalling
+         cp -f /Users/"${USER}"/Library/Preferences/WebStorm2019.3/idea.properties /Users/"${USER}"/Library/Preferences/WebStorm2019.3/idea.properties.back
+         # Idea will create those dirs
+         echo "idea.system.path=${USERRAMDISK}/WebStorm" >> /Users/"${USER}"/Library/Preferences/WebStorm2019.3/idea.properties
+         echo "idea.log.path=${USERRAMDISK}/WebStorm/logs" >> /Users/"${USER}"/Library/Preferences/WebStorm2019.3/idea.properties
+         echo "Moved WebStorm cache."
+      fi
+   fi
 }
 
 #
@@ -319,60 +260,35 @@ move_appcode_cache()
 #
 move_xcode_cache()
 {
-    if [ -d "/Applications/Xcode.app" ]; then
-        if user_response "${MSG_PROMPT_FOUND}" 'Xcode'"${MSG_MOVE_CACHE}" ; then
-            echo "moving XCode cache..";
-            echo "deleting ~/Library/Developer/Xcode/DerivedData"
+   if [ -d "/Applications/Xcode.app" ]; then
+      if user_response "${MSG_PROMPT_FOUND}" 'Xcode'"${MSG_MOVE_CACHE}" ; then
+         echo "moving XCode cache..";
+         echo "deleting ~/Library/Developer/Xcode/DerivedData"
 
-            /bin/rm -rvf ~/Library/Developer/Xcode/DerivedData
-            /bin/mkdir -pv "${USERRAMDISK}"/Apple/Xcode
-            /bin/ln -v -s "${USERRAMDISK}"/Apple/Xcode /Users/"${USER}"/Library/Developer/Xcode/DerivedData
-            echo "Moved Xcode cache."
-        fi
-    fi
+         /bin/rm -rvf ~/Library/Developer/Xcode/DerivedData
+         /bin/mkdir -pv "${USERRAMDISK}"/Apple/Xcode
+         /bin/ln -v -s "${USERRAMDISK}"/Apple/Xcode /Users/"${USER}"/Library/Developer/Xcode/DerivedData
+         echo "Moved Xcode cache."
+      fi
+   fi
 }
 
-#
-# PhpStorm
-#
-move_phpstorm_cache()
-{
-    if [ -d "/Applications/PhpStorm.app" ]; then
-        if user_response "${MSG_PROMPT_FOUND}" 'PhpStorm'"${MSG_MOVE_CACHE}" ; then
-            echo "moving PHPStorm cache";
-            close_app "PhpStorm"
-            # make a backup of config - will need it when uninstalling
-            cp -f /Applications/PhpStorm.app/Contents/bin/idea.properties /Applications/PhpStorm.app/Contents/bin/idea.properties.back
-            # Idea will create those dirs
-            echo "idea.system.path=${USERRAMDISK}/PhpStorm" >> /Applications/PhpStorm.app/Contents/bin/idea.properties
-            echo "idea.log.path=${USERRAMDISK}/PhpStorm/logs" >> /Applications/PhpStorm.app/Contents/bin/idea.properties
-            echo "Moved PhpStorm cache."
-        fi
-    fi
-}
 
 # -----------------------------------------------------------------------------------
 # The entry point
 # -----------------------------------------------------------------------------------
 main() {
-    check_requirements
-    # and create our RAM disk
-    mk_ram_disk
-    # move the caches
-    # move_chrome_cache
-    # move_safari_cache
-    move_idea_cache
-    move_ideace_cache
-    # create intermediate folder for intellij projects output
-    create_intermediate_folder_for_intellij_projects
-    # move_itunes_cache
-    move_android_studio_cache
-    move_clion_cache
-    move_appcode_cache
-    # move_xcode_cache
-    move_phpstorm_cache
-    echo "echo use \"${mount_point}/compileroutput\" for intelliJ project output directory."
-    echo "All good - I have done my job. Your apps should fly."
+   check_requirements
+   # and create our RAM disk
+   mk_ram_disk
+   # move the caches
+   move_chrome_cache
+   move_chromium_cache
+   move_safari_cache
+   move_webstorm_cache
+   move_itunes_cache
+   move_xcode_cache
+   echo "All good - I have done my job. Your apps should fly."
 }
 
 main "$@"

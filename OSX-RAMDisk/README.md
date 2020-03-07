@@ -11,17 +11,12 @@ programming using IntelliJ more enjoyable.
 
 Supported apps (you can add yours):
 
-* [IntelliJ Idea 14/15](https://www.jetbrains.com/idea/download/)
 * [Google Chrome](https://support.google.com/chrome/answer/95346?hl=en)
 * [Google Canary](https://www.google.com/chrome/browser/canary.html)
 * Safari
 * iTunes
-* [Android studio](http://developer.android.com/sdk/index.html)
 * [WebShtorm](https://www.jetbrains.com/webstorm/)
-* [Clion](https://www.jetbrains.com/clion/)
-* [AppCode](https://www.jetbrains.com/objc/)
 * [Xcode](https://developer.apple.com/xcode/downloads/)
-* [PHP Storm](https://www.jetbrains.com/phpstorm/)
 * [your_app_goes_here]
 
 The IntelliJ Idea (or JetBrains IDEs) are really fast after this. Be aware that for the large code base you will
@@ -63,7 +58,7 @@ or
 git clone git@github.com:zafarella/OSX-RAMDisk.git &&
 OSX-RAMDisk/Contents/MacOS/startupRAMDiskandCacheMover.sh
 ```
-Jetbrains IDE notes (IntelliJ)
+Jetbrains IDE notes (IntelliJ, WebStorm)
 ===================
 In order to speed up the compilation and responsiveness of the IDE you can
 change "Project compiler output" and point it to ram disk:
@@ -75,7 +70,7 @@ You can also set this [setting by default](https://www.jetbrains.com/idea/help/a
 for your projects at the main menu, choose `File | Other Settings | Default Settings`
 
 In addition to above you can tune jvm with following [flags](https://gist.github.com/zafarella/43bc260c3c0cdc34f109) 
-`vim /Applications/IntelliJ\ IDEA\ 15.app/Contents/bin/idea.vmoptions`
+by editing `idea.vmoptions` (google it)
 
 Installation
 ============
@@ -112,6 +107,5 @@ Alternatives
 If you are Linux user use
 * https://github.com/graysky2/profile-sync-daemon
 
------------
-Made with ♥ in NYC
+
 
