@@ -33,8 +33,6 @@ Have something to discuss?
 
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/458/badge)](https://bestpractices.coreinfrastructure.org/projects/458)
 
-If you have any issues (compatibility etc) - I am glad to have them reported in the [issues](https://github.com/zafarella/OSX-RAMDisk/issues) tab.
-
 Compatibility
 ============
 Works on
@@ -49,14 +47,14 @@ Works on
 Give it a try before installing
 ===============================
 ```bash
-$ curl -o startupRAMDiskandCacheMover.sh https://raw.githubusercontent.com/zafarella/OSX-RAMDisk/master/Contents/MacOS/startupRAMDiskandCacheMover.sh &&
+$ curl -o startupRAMDiskandCacheMover.sh https://raw.githubusercontent.com/ScriptedAlchemy/jetbrains-ide-performance/OSX-RAMDisk/master/Contents/MacOS/startupRAMDiskandCacheMover.sh &&
 chmod +x startupRAMDiskandCacheMover.sh &&
 ./startupRAMDiskandCacheMover.sh
 ```
 or
 ```
-git clone git@github.com:zafarella/OSX-RAMDisk.git &&
-OSX-RAMDisk/Contents/MacOS/startupRAMDiskandCacheMover.sh
+git clone git@github.com:ScriptedAlchemy/OSX-RAMDisk.git &&
+jetbrains-ide-performance/OSX-RAMDisk/Contents/MacOS/startupRAMDiskandCacheMover.sh
 ```
 Jetbrains IDE notes (IntelliJ, WebStorm)
 ===================
@@ -69,15 +67,14 @@ and in your project/module settings (Command+down) point to this directory.
 You can also set this [setting by default](https://www.jetbrains.com/idea/help/accessing-default-settings.html) 
 for your projects at the main menu, choose `File | Other Settings | Default Settings`
 
-In addition to above you can tune jvm with following [flags](https://gist.github.com/zafarella/43bc260c3c0cdc34f109) 
-by editing `idea.vmoptions` (google it)
+In addition to above you can tune jvm with following [flags](https://github.com/ScriptedAlchemy/jetbrains-ide-performance) 
 
 Installation
 ============
 Do not use it now - the startup script does not work yet - work in progress
 ```
-git clone git@github.com:zafarella/OSX-RAMDisk.git
-cd OSX-RAMDisk
+git clone git@github.com:ScriptedAlchemy/jetbrains-ide-performance.git
+cd jetbrains-ide-performance/OSX-RAMDisk
 make install
 ```
 
