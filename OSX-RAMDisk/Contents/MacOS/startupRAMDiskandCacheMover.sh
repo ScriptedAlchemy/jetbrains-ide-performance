@@ -21,7 +21,7 @@ set -x
 # By default will use 1/4 of your RAM
 
 ramfs_size_mb=$(sysctl hw.memsize | awk '{print $2;}')
-ramfs_size_mb=$((ramfs_size_mb/1024/1024/4))
+ramfs_size_mb=$((ramfs_size_mb/1024/1024/2))
 
 mount_point=/Users/${USER}/ramdisk
 ramfs_size_sectors=$((ramfs_size_mb*1024*1024/512))
@@ -147,8 +147,6 @@ make_flag()
 #
 
 
-/bin/mkdir -pv $CACHEDIR/Google/Chrome/Default
-/bin/ln -v -s $CACHEDIR/Google/Chrome/Default ~/Library/Caches/Google/Chrome/Default
 move_chrome_cache()
 {
    if [ -d "/Users/${USER}/Library/Caches/Google/Chrome" ]; then
@@ -165,6 +163,45 @@ move_chrome_cache()
       fi
    else
       echo "No Google Chrome folder has been found. Skipping."
+   fi
+}
+
+
+move_chrome_cache()
+{
+   if [ -d "/Users/${USER}/Library/Caches/Google/Chrome" ]; then
+      if user_response "${MSG_PROMPT_FOUND}" 'Chrome'"${MSG_MOVE_CACHE}" ; then
+         close_app "Google Chrome"
+         /bin/mkdir -p /tmp/Google
+         /bin/mv ~/Library/Caches/Google/Chrome/* /tmp/Google
+         /bin/mkdir -pv "${USERRAMDISK}"/Google
+         /bin/mv /tmp/Google/* "${USERRAMDISK}"/Google
+         /bin/ln -v -s -f "${USERRAMDISK}"/Google ~/Library/Caches/Google/
+         /bin/rm -rf /tmp/Google
+         # and let's create a flag for next run that we moved the cache.
+         echo "";
+      fi
+   else
+      echo "No Google Chrome folder has been found. Skipping."
+   fi
+}
+
+move_brave_cache()
+{
+   if [ -d "/Users/${USER}/Library/Caches/BraveSoftware/Brave-Browser" ]; then
+      if user_response "${MSG_PROMPT_FOUND}" 'Brave'"${MSG_MOVE_CACHE}" ; then
+         close_app "Google Chrome"
+         /bin/mkdir -p /tmp/Google
+         /bin/mv ~/Library/Caches/BraveSoftware/Brave-Browser/* /tmp/Brave
+         /bin/mkdir -pv "${USERRAMDISK}"/Brave
+         /bin/mv /tmp/Google/* "${USERRAMDISK}"/Brave
+         /bin/ln -v -s -f "${USERRAMDISK}"/Brave ~/Library/Caches/BraveSoftware/
+         /bin/rm -rf /tmp/Brave
+         # and let's create a flag for next run that we moved the cache.
+         echo "";
+      fi
+   else
+      echo "No Brave Browser folder has been found. Skipping."
    fi
 }
 
@@ -283,6 +320,7 @@ main() {
    mk_ram_disk
    # move the caches
    move_chrome_cache
+   move_brave_cache
    move_chromium_cache
    move_safari_cache
    move_webstorm_cache
