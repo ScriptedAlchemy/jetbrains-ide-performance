@@ -11,12 +11,17 @@ programming using IntelliJ more enjoyable.
 
 Supported apps (you can add yours):
 
+* [IntelliJ Idea 14/15](https://www.jetbrains.com/idea/download/)
 * [Google Chrome](https://support.google.com/chrome/answer/95346?hl=en)
 * [Google Canary](https://www.google.com/chrome/browser/canary.html)
 * Safari
 * iTunes
+* [Android studio](http://developer.android.com/sdk/index.html)
 * [WebShtorm](https://www.jetbrains.com/webstorm/)
+* [Clion](https://www.jetbrains.com/clion/)
+* [AppCode](https://www.jetbrains.com/objc/)
 * [Xcode](https://developer.apple.com/xcode/downloads/)
+* [PHP Storm](https://www.jetbrains.com/phpstorm/)
 * [your_app_goes_here]
 
 The IntelliJ Idea (or JetBrains IDEs) are really fast after this. Be aware that for the large code base you will
@@ -33,6 +38,8 @@ Have something to discuss?
 
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/458/badge)](https://bestpractices.coreinfrastructure.org/projects/458)
 
+If you have any issues (compatibility etc) - I am glad to have them reported in the [issues](https://github.com/zafarella/OSX-RAMDisk/issues) tab.
+
 Compatibility
 ============
 Works on
@@ -47,16 +54,16 @@ Works on
 Give it a try before installing
 ===============================
 ```bash
-$ curl -o startupRAMDiskandCacheMover.sh https://raw.githubusercontent.com/ScriptedAlchemy/jetbrains-ide-performance/OSX-RAMDisk/master/Contents/MacOS/startupRAMDiskandCacheMover.sh &&
+$ curl -o startupRAMDiskandCacheMover.sh https://raw.githubusercontent.com/zafarella/OSX-RAMDisk/master/Contents/MacOS/startupRAMDiskandCacheMover.sh &&
 chmod +x startupRAMDiskandCacheMover.sh &&
 ./startupRAMDiskandCacheMover.sh
 ```
 or
 ```
-git clone git@github.com:ScriptedAlchemy/OSX-RAMDisk.git &&
-jetbrains-ide-performance/OSX-RAMDisk/Contents/MacOS/startupRAMDiskandCacheMover.sh
+git clone git@github.com:zafarella/OSX-RAMDisk.git &&
+OSX-RAMDisk/Contents/MacOS/startupRAMDiskandCacheMover.sh
 ```
-Jetbrains IDE notes (IntelliJ, WebStorm)
+Jetbrains IDE notes (IntelliJ)
 ===================
 In order to speed up the compilation and responsiveness of the IDE you can
 change "Project compiler output" and point it to ram disk:
@@ -67,14 +74,15 @@ and in your project/module settings (Command+down) point to this directory.
 You can also set this [setting by default](https://www.jetbrains.com/idea/help/accessing-default-settings.html) 
 for your projects at the main menu, choose `File | Other Settings | Default Settings`
 
-In addition to above you can tune jvm with following [flags](https://github.com/ScriptedAlchemy/jetbrains-ide-performance) 
+In addition to above you can tune jvm with following [flags](https://gist.github.com/zafarella/43bc260c3c0cdc34f109) 
+`vim /Applications/IntelliJ\ IDEA\ 15.app/Contents/bin/idea.vmoptions`
 
 Installation
 ============
 Do not use it now - the startup script does not work yet - work in progress
 ```
-git clone git@github.com:ScriptedAlchemy/jetbrains-ide-performance.git
-cd jetbrains-ide-performance/OSX-RAMDisk
+git clone git@github.com:zafarella/OSX-RAMDisk.git
+cd OSX-RAMDisk
 make install
 ```
 
@@ -104,5 +112,6 @@ Alternatives
 If you are Linux user use
 * https://github.com/graysky2/profile-sync-daemon
 
-
+-----------
+Was made with ♥ in NYC
 
